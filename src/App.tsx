@@ -1,17 +1,18 @@
+import StartScreen from "./components/StartScreen";
 import CategorySelection from "./components/CategorySelection";
 import QuestionCard from "./components/QuestionCard";
 import ResultScreen from "./components/ResultScreen";
-import StartScreen from "./components/StartScreen";
+import type { Status } from "./types";
 import { useState } from "react";
 
 function App() {
-  const [status, setStatus] = useState("start");
+  const [status, setStatus] = useState<Status>("start");
 
   switch (status) {
     case "start":
       return <StartScreen onChange={setStatus} />;
     case "category":
-      return <CategorySelection />;
+      return <CategorySelection onChange={setStatus} />;
     case "playing":
       return <QuestionCard />;
     case "finished":

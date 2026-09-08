@@ -1,3 +1,5 @@
+export type Status = "start" | "category" | "playing" | "finished";
+
 export const CATEGORIES = ["general", "programming", "history", "sports"] as const;
 
 export type Category = (typeof CATEGORIES)[number];
