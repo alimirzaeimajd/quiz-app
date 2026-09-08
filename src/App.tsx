@@ -15,7 +15,7 @@ function App() {
     case "category":
       return <CategorySelection onSelectCategory={setCategory} onChange={setStatus} />;
     case "playing":
-      return <QuestionCard category={category} />;
+      return <QuestionCard category={category} onChange={setStatus} />;
     case "finished":
       return <ResultScreen />;
     default:
