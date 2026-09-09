@@ -4,10 +4,11 @@ import type { Status } from "../types";
 interface QuestionCardProps {
   category: string | undefined;
   onChange: React.Dispatch<React.SetStateAction<Status>>;
+  score: number;
   getScore: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function QuestionCard({ category, onChange, getScore }: QuestionCardProps) {
+export default function QuestionCard({ category, onChange, score, getScore }: QuestionCardProps) {
   const [index, setIndex] = useState<number>(0);
   const filteredQuestions = questions.filter((q) => q.category === category);
 
@@ -17,6 +18,7 @@ export default function QuestionCard({ category, onChange, getScore }: QuestionC
       return;
     }
     setIndex((prev) => prev + 1);
+    console.log(score);
   }
 
   function optionHandler(option: string) {

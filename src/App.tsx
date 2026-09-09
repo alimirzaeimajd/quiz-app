@@ -16,9 +16,11 @@ function App() {
     case "category":
       return <CategorySelection onSelectCategory={setCategory} onChange={setStatus} />;
     case "playing":
-      return <QuestionCard category={category} onChange={setStatus} getScore={setScore} />;
+      return (
+        <QuestionCard category={category} onChange={setStatus} score={score} getScore={setScore} />
+      );
     case "finished":
-      return <ResultScreen score={score} />;
+      return <ResultScreen score={score} onChange={setStatus} onChangeScore={setScore} />;
     default:
       return <p>Unknown status</p>;
   }
