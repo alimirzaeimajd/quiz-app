@@ -30,6 +30,7 @@ export default function QuestionCard({ category, onChange, getScore }: QuestionC
   }
 
   function nextHandler() {
+    if (selectedOptionId === null) throw Error("please choose an answer first!"); // will work on this later.
     if (filteredQuestions.length <= index + 1) {
       onChange("finished");
       return;
