@@ -8,8 +8,8 @@ export interface Question {
   id: number;
   category: Category;
   question: string;
-  options: string[];
-  correctAnswer: string;
+  options: { id: number; text: string }[];
+  correctAnswer: number;
 }
 
 // export type QuizStatus = "start" | "playing" | "finished";

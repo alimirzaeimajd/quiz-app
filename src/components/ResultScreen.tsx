@@ -9,7 +9,7 @@ interface ResultScreenProps {
 export default function ResultScreen({ score, onChange, onChangeScore }: ResultScreenProps) {
   function resetHandler() {
     onChangeScore(0);
-    onChange("start");
+    onChange("category");
     console.log("your game is reset!");
   }
 

@@ -8,9 +8,26 @@ interface QuestionCardProps {
   getScore: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function QuestionCard({ category, onChange, score, getScore }: QuestionCardProps) {
+export default function QuestionCard({ category, onChange, getScore }: QuestionCardProps) {
   const [index, setIndex] = useState<number>(0);
+  const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
   const filteredQuestions = questions.filter((q) => q.category === category);
+  const currentQuestion = filteredQuestions[index];
+
+  function optionHandler(optionId: number) {
+    if (selectedOptionId !== null) return; // already answered, ignore further clicks
+    setSelectedOptionId(optionId); // use this for highlighting answer.
+    if (optionId === currentQuestion.correctAnswer) {
+      getScore((prev) => prev + 1);
+    }
+  }
+
+  function getButtonClass(optionId: number) {
+    if (selectedOptionId === null) return "bg-blue-500"; // nothing picked yet
+    if (optionId === currentQuestion.correctAnswer) return "bg-green-500";
+    if (optionId === selectedOptionId) return "bg-red-500";
+    return "bg-blue-500"; // untouched, unrelated option
+  }
 
   function nextHandler() {
     if (filteredQuestions.length <= index + 1) {
@@ -18,29 +35,21 @@ export default function QuestionCard({ category, onChange, score, getScore }: Qu
       return;
     }
     setIndex((prev) => prev + 1);
-    console.log(score);
-  }
-
-  function optionHandler(option: string) {
-    if (option === filteredQuestions[index].correctAnswer) {
-      console.log("True option");
-      getScore((prev) => prev + 1);
-    } else {
-      console.log("false option");
-    }
+    setSelectedOptionId(null); // reset for the new question
   }
 
   return (
     <div>
       <div>
-        <h1 key={filteredQuestions[index].id}>{filteredQuestions[index].question}</h1>
-        {filteredQuestions[index].options.map((o) => (
+        <h1 key={currentQuestion.id}>{currentQuestion.question}</h1>
+        {currentQuestion.options.map((o) => (
           <button
-            key={`${filteredQuestions[index].id}${filteredQuestions[index].options.indexOf(o)}`}
-            onClick={() => optionHandler(o)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className={`${getButtonClass(o.id)} text-white font-bold py-2 px-4 rounded`}
+            key={o.id}
+            onClick={() => optionHandler(o.id)}
+            disabled={selectedOptionId !== null}
           >
-            {o}
+            {o.text}
           </button>
         ))}
       </div>
