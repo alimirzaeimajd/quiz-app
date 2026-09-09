@@ -8,6 +8,7 @@ import { useState } from "react";
 function App() {
   const [status, setStatus] = useState<Status>("start");
   const [category, setCategory] = useState<Category | undefined>(undefined);
+  const [score, setScore] = useState(0);
 
   switch (status) {
     case "start":
@@ -15,9 +16,9 @@ function App() {
     case "category":
       return <CategorySelection onSelectCategory={setCategory} onChange={setStatus} />;
     case "playing":
-      return <QuestionCard category={category} onChange={setStatus} />;
+      return <QuestionCard category={category} onChange={setStatus} getScore={setScore} />;
     case "finished":
-      return <ResultScreen />;
+      return <ResultScreen score={score} />;
     default:
       return <p>Unknown status</p>;
   }
