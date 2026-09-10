@@ -8,7 +8,7 @@ interface QuestionCardProps {
   getScore: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function QuestionCard({ category, onChange, getScore }: QuestionCardProps) {
+export default function QuestionCard({ category, onChange, score, getScore }: QuestionCardProps) {
   const [index, setIndex] = useState<number>(0);
   const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
   const filteredQuestions = questions.filter((q) => q.category === category);
@@ -30,7 +30,6 @@ export default function QuestionCard({ category, onChange, getScore }: QuestionC
   }
 
   function nextHandler() {
-    if (selectedOptionId === null) throw Error("please choose an answer first!"); // will work on this later.
     if (filteredQuestions.length <= index + 1) {
       onChange("finished");
       return;
@@ -39,8 +38,13 @@ export default function QuestionCard({ category, onChange, getScore }: QuestionC
     setSelectedOptionId(null); // reset for the new question
   }
 
+  if (!currentQuestion) return <p>No questions found for this category.</p>;
+
   return (
     <div>
+      <h1>
+        your current score is <span className="underline text-red-600">{score}</span>
+      </h1>
       <div>
         <h1 key={currentQuestion.id}>{currentQuestion.question}</h1>
         {currentQuestion.options.map((o) => (
@@ -54,7 +58,15 @@ export default function QuestionCard({ category, onChange, getScore }: QuestionC
           </button>
         ))}
       </div>
-      <button onClick={nextHandler}>NEXT</button>
+
+      {selectedOptionId && (
+        <button
+          className="bg-blue-500 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+          onClick={nextHandler}
+        >
+          NEXT
+        </button>
+      )}
     </div>
   );
 }
